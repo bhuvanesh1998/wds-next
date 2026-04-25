@@ -9,6 +9,7 @@ import Services from '@/components/sections/Services';
 import Process from '@/components/sections/Process';
 import WhyUs from '@/components/sections/WhyUs';
 import Testimonials from '@/components/sections/Testimonials';
+import Templates from '@/components/sections/Templates';
 import CTA from '@/components/sections/CTA';
 import Contact from '@/components/sections/Contact';
 import Newsletter from '@/components/sections/Newsletter';
@@ -25,6 +26,7 @@ export default function Page() {
       <main>
         <Hero onOpenModal={() => setModalOpen(true)} />
         <Work onOpenModal={() => setModalOpen(true)} />
+        <Templates />
         <Services />
         <Process />
         <WhyUs />

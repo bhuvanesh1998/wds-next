@@ -2,12 +2,12 @@
 import { useEffect, useRef, useState } from 'react';
 
 const NAV_LINKS = [
-  { href: '#work',         label: 'Work',     section: 'work' },
-  { href: '#services',     label: 'Services', section: 'services' },
-  { href: '#process',      label: 'Process',  section: 'process' },
-  { href: '#why',          label: 'About',    section: 'why' },
-  { href: '#testimonials', label: 'Clients',  section: 'testimonials' },
-  { href: '#contact',      label: 'Contact',  section: 'contact' },
+  { href: '#work',         label: 'Work',      section: 'work' },
+  { href: '#services',     label: 'Services',  section: 'services' },
+  { href: '#templates',    label: 'Templates', section: 'templates' },
+  { href: '#process',      label: 'Process',   section: 'process' },
+  { href: '#why',          label: 'About',     section: 'why' },
+  { href: '#contact',      label: 'Contact',   section: 'contact' },
 ];
 
 export default function TopNav() {
