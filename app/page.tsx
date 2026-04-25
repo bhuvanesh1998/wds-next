@@ -42,7 +42,7 @@ export default function Page() {
           © 2025 Widescreen Digital Solution. All rights reserved.
         </div>
         <div style={{ fontFamily: 'var(--ff-mono)', fontSize: '.78rem', color: 'var(--text-dim)', letterSpacing: '.05em' }}>
-          hello@widescreendigital.com
+          info@widescreen.in
         </div>
       </footer>
     </>

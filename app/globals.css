@@ -15,9 +15,9 @@
   --glass-b:   rgba(249,115,22,0.08);
   --border:    rgba(255,200,150,0.08);
   --border-b:  rgba(249,115,22,0.25);
-  --ff-display:'Syne', sans-serif;
-  --ff-body:   'DM Sans', sans-serif;
-  --ff-mono:   'JetBrains Mono', monospace;
+  --ff-display:'Bricolage Grotesque', sans-serif;
+  --ff-body:   'Plus Jakarta Sans', sans-serif;
+  --ff-mono:   'Space Mono', monospace;
   --ease-out:  cubic-bezier(0.16,1,0.3,1);
   --ease-in:   cubic-bezier(0.7,0,0.84,0);
 }

@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { useReveal } from '@/hooks/useReveal';
 
 const DETAILS = [
-  { icon: '✉', label: 'Email us',      text: 'hello@widescreendigital.com' },
-  { icon: '📞', label: 'Call us',       text: '+1 (888) 400-0000' },
+  { icon: '✉', label: 'Email us',      text: 'info@widescreen.in' },
+  { icon: '📞', label: 'Call us',       text: '+91 70927 01804' },
   { icon: '🌐', label: 'Response time', text: 'Within 24 hours' },
-  { icon: '◎', label: 'Timezone',       text: 'US · EU · APAC coverage' },
+  { icon: '◎', label: 'Timezone',       text: 'IST · GMT · EST coverage' },
 ];
 
 export default function Contact() {
