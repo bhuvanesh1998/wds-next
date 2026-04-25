@@ -1,124 +1,66 @@
 'use client';
-import { useEffect, useRef } from 'react';
-
-export default function AnalyticsPage() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
-    const c = canvasRef.current; if (!c) return;
-    const ctx = c.getContext('2d')!;
-    let W = c.width = c.offsetWidth, H = c.height = c.offsetHeight, t = 0, raf = 0;
-    const bars = Array.from({length:20},(_,i)=>({x:i,h:Math.random(),th:Math.random(),speed:.005+Math.random()*.01}));
-    const draw = () => {
-      ctx.clearRect(0,0,W,H); t+=.01;
-      bars.forEach(b=>{ b.h+=(b.th-b.h)*.05; if(Math.abs(b.h-b.th)<.01) b.th=.2+Math.random()*.7; });
-      const bw=W/bars.length, pad=2;
-      bars.forEach((b,i)=>{
-        const bh=b.h*(H*.6), by=H*.7-bh;
-        const g=ctx.createLinearGradient(0,by,0,H*.7);
-        g.addColorStop(0,'rgba(6,182,212,.5)'); g.addColorStop(1,'rgba(6,182,212,.02)');
-        ctx.fillStyle=g; ctx.fillRect(i*bw+pad,by,bw-pad*2,bh);
-      });
-      // Grid
-      ctx.strokeStyle='rgba(6,182,212,.06)'; ctx.lineWidth=1;
-      for(let y=0;y<H;y+=60){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-      for(let x=0;x<W;x+=80){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-      // Line chart
-      ctx.beginPath(); ctx.strokeStyle='rgba(6,182,212,.7)'; ctx.lineWidth=2;
-      bars.forEach((b,i)=>{ const x=i*W/bars.length+W/(bars.length*2), y=H*.7-b.h*(H*.55); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
-      ctx.stroke();
-      raf=requestAnimationFrame(draw);
-    };
-    draw();
-    const r=()=>{W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;};
-    window.addEventListener('resize',r,{passive:true});
-    return ()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',r);};
-  },[]);
-  useEffect(()=>{
-    const els=document.querySelectorAll<HTMLElement>('.rv');
-    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:.1});
-    els.forEach(e=>obs.observe(e)); return ()=>obs.disconnect();
-  },[]);
-
-  const features=[
-    {icon:'◈',title:'Real-time Dashboards',desc:'Live data visualisation with sub-second latency across all your sources.'},
-    {icon:'◉',title:'Predictive Models',desc:'ML-powered forecasting that surfaces opportunities before they emerge.'},
-    {icon:'◫',title:'Data Pipeline',desc:'ETL automation that cleans, transforms and routes data without manual work.'},
-    {icon:'⬡',title:'Custom Reports',desc:'Board-ready reports built to your KPIs, delivered on schedule.'},
-    {icon:'◌',title:'API Integrations',desc:'Connect 200+ tools — CRMs, ERPs, ad platforms — in minutes.'},
-    {icon:'◈',title:'Anomaly Detection',desc:'Automated alerts when numbers deviate from expected patterns.'},
-  ];
-
-  return (<>
-    <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
-      *{box-sizing:border-box;margin:0;padding:0}
-      body{background:#00080f;color:#e0f7fa;font-family:'DM Sans',sans-serif;overflow-x:hidden}
-      .rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}.rv.in{opacity:1;transform:none}
-      nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,8,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(6,182,212,.1);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 3rem}
-      .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;background:linear-gradient(90deg,#06B6D4,#22D3EE);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-      .nav-links{display:flex;gap:2rem;list-style:none}.nav-links a{font-size:.85rem;color:rgba(6,182,212,.6);transition:color .2s}.nav-links a:hover{color:#06B6D4}
-      .nav-cta{padding:.45rem 1.25rem;background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.3);border-radius:8px;font-size:.78rem;font-weight:600;color:#06B6D4;transition:background .2s}.nav-cta:hover{background:rgba(6,182,212,.2)}
-      .hero-wrap{position:relative;min-height:100vh;padding-top:64px;overflow:hidden}
-      canvas{position:absolute;bottom:0;left:0;width:100%;height:70%;pointer-events:none}
-      .hero{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:calc(100vh - 64px);padding:2rem 3rem;max-width:700px}
-      .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1rem;border:1px solid rgba(6,182,212,.25);border-radius:2rem;background:rgba(6,182,212,.06);font-family:'JetBrains Mono',monospace;font-size:.67rem;letter-spacing:.15em;text-transform:uppercase;color:#06B6D4;margin-bottom:2rem;animation:fu .8s .2s both}
-      .dot{width:5px;height:5px;background:#06B6D4;border-radius:50%;box-shadow:0 0 8px #06B6D4;animation:pulse 2s infinite}
-      @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.5)}}
-      h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,5.5vw,5rem);font-weight:800;line-height:1.05;letter-spacing:-.035em;margin-bottom:1.5rem;animation:fu .9s .3s both}
-      .grad{background:linear-gradient(135deg,#06B6D4,#22D3EE,#67E8F9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-      p.sub{font-size:1.05rem;color:rgba(6,182,212,.65);line-height:1.75;margin-bottom:2.5rem;animation:fu .8s .5s both;max-width:480px}
-      .btns{display:flex;gap:1rem;flex-wrap:wrap;animation:fu .8s .7s both}
-      .bp{padding:.85rem 2.2rem;background:linear-gradient(135deg,#06B6D4,#0891B2);border-radius:10px;font-weight:600;font-size:.9rem;color:#000;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s}.bp:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(6,182,212,.3)}
-      .bo{padding:.85rem 2.2rem;border:1px solid rgba(6,182,212,.3);border-radius:10px;font-size:.9rem;color:#06B6D4;background:none;cursor:pointer;transition:border-color .2s}.bo:hover{border-color:#06B6D4}
-      @keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-      .feat-section{padding:7rem 3rem;background:linear-gradient(to bottom,rgba(6,182,212,.03),transparent)}
-      .inner{max-width:1200px;margin:0 auto}
-      .label{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#06B6D4;display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem}.label::before{content:'';width:20px;height:1px;background:#06B6D4}
-      h2{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:800;letter-spacing:-.03em;margin-bottom:3rem}
-      .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-      .feat{background:rgba(6,182,212,.04);border:1px solid rgba(6,182,212,.08);border-radius:16px;padding:2rem;transition:border-color .3s,background .3s}.feat:hover{border-color:rgba(6,182,212,.25);background:rgba(6,182,212,.08)}
-      .feat-icon{font-size:1.6rem;margin-bottom:1rem;color:#06B6D4}
-      .feat-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.6rem}
-      .feat-desc{font-size:.88rem;color:rgba(6,182,212,.55);line-height:1.6}
-      .cta-s{padding:8rem 3rem;text-align:center;background:radial-gradient(ellipse at 50% 100%,rgba(6,182,212,.1),transparent 60%)}
-      .cta-s h2{font-size:clamp(2rem,4vw,3.5rem);margin-bottom:2rem}
-      footer{padding:2rem 3rem;border-top:1px solid rgba(6,182,212,.08);display:flex;justify-content:space-between;font-size:.75rem;color:rgba(6,182,212,.3);font-family:'JetBrains Mono',monospace}
-      @media(max-width:768px){nav{padding:0 1.25rem}.nav-links{display:none}.hero{padding:2rem 1.25rem;max-width:100%}.feat-section{padding:4rem 1.25rem}.feat-grid{grid-template-columns:1fr}.cta-s{padding:4rem 1.25rem}footer{padding:1.5rem 1.25rem;flex-direction:column;gap:.5rem}}
-    `}</style>
-    <nav>
-      <div className="logo">Widescreen Analytics</div>
-      <ul className="nav-links">{['Platform','Solutions','Pricing','Docs'].map(l=><li key={l}><a href="#">{l}</a></li>)}</ul>
-      <a href="#" className="nav-cta">Start Free Trial</a>
-    </nav>
-    <div className="hero-wrap">
-      <canvas ref={canvasRef}/>
-      <div className="hero">
-        <div className="badge"><span className="dot"/>Data Intelligence Platform</div>
-        <h1>Your data,<br/><span className="grad">finally clear.</span></h1>
-        <p className="sub">Turn chaotic data streams into confident decisions. Real-time analytics, predictive models, and beautiful dashboards — all in one platform.</p>
-        <div className="btns"><button className="bp">Get Started Free</button><button className="bo">Watch Demo</button></div>
-      </div>
-    </div>
-    <div className="feat-section">
-      <div className="inner">
-        <div className="label rv">Capabilities</div>
-        <h2 className="rv">Everything you need<br/>to <span className="grad">see clearly</span></h2>
-        <div className="feat-grid">
-          {features.map(f=>(
-            <div key={f.title} className="feat rv">
-              <div className="feat-icon">{f.icon}</div>
-              <div className="feat-title">{f.title}</div>
-              <div className="feat-desc">{f.desc}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-    <div className="cta-s rv">
-      <div className="label" style={{justifyContent:'center'}}>Get Started</div>
-      <h2>Start turning data into<br/><span className="grad">competitive advantage</span></h2>
-      <button className="bp">Try Free for 14 Days</button>
-    </div>
-    <footer><span>© 2025 Widescreen Analytics</span><span>Powered by Widescreen Studio</span></footer>
+import { useEffect } from 'react';
+const STATS=[{v:'10B+',l:'Data Points Processed'},{v:'3.8x',l:'Avg ROI Delivered'},{v:'200ms',l:'Dashboard Load Time'},{v:'99.9%',l:'Platform Uptime'}];
+const SERVICES=[{i:'📊',t:'Business Intelligence',d:'Live dashboards connecting your ERP, CRM and marketing stack into one source of truth.'},{i:'🤖',t:'Predictive Modelling',d:'ML models that forecast churn, demand and revenue with 94% accuracy.'},{i:'🗃️',t:'Data Engineering',d:'Scalable pipelines on Snowflake, BigQuery or Redshift — built to last.'},{i:'👁️',t:'Customer Analytics',d:'360-degree customer views, cohort analysis and LTV segmentation.'},{i:'🌐',t:'Real-time Streaming',d:'Kafka and Flink powered streams for sub-second decision making.'},{i:'🔐',t:'Data Governance',d:'GDPR-compliant data catalogues, lineage tracking and access control.'}];
+const TEAM=[{n:'Dr. Aditi Sharma',r:'Chief Data Scientist',img:'https://i.pravatar.cc/200?img=36'},{n:'Kiran Mehta',r:'ML Engineering Lead',img:'https://i.pravatar.cc/200?img=65'},{n:'James Liu',r:'Data Architecture',img:'https://i.pravatar.cc/200?img=53'},{n:'Pooja Varma',r:'Analytics Consultant',img:'https://i.pravatar.cc/200?img=41'}];
+const REVIEWS=[{n:'Alok Sinha',co:'CTO, RetailX',q:'Their demand forecasting model cut our overstock by 34% in the first quarter. Exceptional ROI.',img:'https://i.pravatar.cc/80?img=14'},{n:'Nadia Petrov',co:'Head of Growth, Fintro',q:'The churn prediction model alone retained 1,200 customers in the first month. Incredible work.',img:'https://i.pravatar.cc/80?img=29'},{n:'Sujay Pillai',co:'VP Data, Orbis',q:'We went from 3-day reporting cycles to real-time dashboards. It changed how we make decisions.',img:'https://i.pravatar.cc/80?img=57'}];
+export default function AnalyticsPage(){
+  useEffect(()=>{const els=document.querySelectorAll<HTMLElement>('.rv');const obs=new IntersectionObserver(es=>es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*60);obs.unobserve(e.target);}}),{threshold:.06});els.forEach(e=>obs.observe(e));return()=>obs.disconnect();},[]);
+  return(<><style>{`
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;500&family=Fira+Code:wght@400;500&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#00080f;color:#e0f7ff;font-family:'Inter',sans-serif;overflow-x:hidden;cursor:auto}
+    .rv{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,8,15,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(6,182,212,.12);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 3rem}
+    .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;color:#06B6D4;letter-spacing:-.02em}
+    .nav-links{display:flex;gap:2rem;list-style:none}.nav-links a{font-family:'Fira Code',monospace;font-size:.75rem;color:rgba(6,182,212,.5);transition:color .2s;cursor:pointer}.nav-links a:hover{color:#06B6D4}
+    .nav-cta{padding:.45rem 1.4rem;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);border-radius:6px;font-family:'Fira Code',monospace;font-size:.75rem;color:#06B6D4;cursor:pointer;transition:background .2s}.nav-cta:hover{background:rgba(6,182,212,.2)}
+    .hero{min-height:100vh;padding-top:64px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:5rem;padding:80px 4rem 3rem;max-width:1400px;margin:0 auto}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem 1rem;border:1px solid rgba(6,182,212,.25);border-radius:4px;background:rgba(6,182,212,.06);font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:#06B6D4;margin-bottom:2rem}
+    .pulse{width:7px;height:7px;background:#06B6D4;border-radius:50%;animation:pulse 2s infinite}@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(6,182,212,.4)}50%{box-shadow:0 0 0 8px rgba(6,182,212,0)}}
+    h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.8rem,5vw,5rem);font-weight:700;line-height:1;letter-spacing:-.04em;margin-bottom:1.5rem}
+    .grad{background:linear-gradient(135deg,#06B6D4,#67E8F9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    p.sub{font-size:1rem;color:rgba(224,247,255,.5);line-height:1.85;margin-bottom:2.5rem;max-width:480px}
+    .btns{display:flex;gap:1rem;flex-wrap:wrap}
+    .bp{padding:.9rem 2.4rem;background:linear-gradient(135deg,#0891B2,#06B6D4);border-radius:6px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem;color:#fff;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s}.bp:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(6,182,212,.3)}
+    .bo{padding:.9rem 2.4rem;border:1px solid rgba(6,182,212,.25);border-radius:6px;font-size:.9rem;color:#06B6D4;background:none;cursor:pointer}.bo:hover{border-color:#06B6D4}
+    .hero-img{border-radius:12px;overflow:hidden;border:1px solid rgba(6,182,212,.12);box-shadow:0 0 80px rgba(6,182,212,.1)}
+    .hero-img img{width:100%;height:480px;object-fit:cover;display:block}
+    .stats-bar{border-top:1px solid rgba(6,182,212,.08);border-bottom:1px solid rgba(6,182,212,.08);padding:2.5rem 4rem;background:rgba(6,182,212,.03)}
+    .stats-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+    .stat{text-align:center}.stat-v{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.2rem;color:#06B6D4;margin-bottom:.3rem}
+    .stat-l{font-family:'Fira Code',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(224,247,255,.35)}
+    .section{padding:7rem 4rem;border-top:1px solid rgba(6,182,212,.06)}
+    .inner{max-width:1200px;margin:0 auto}
+    .label{font-family:'Fira Code',monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#06B6D4;display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem}.label::before{content:'';width:20px;height:1px;background:#06B6D4}
+    h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;letter-spacing:-.03em;margin-bottom:3rem}
+    .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+    .svc{background:rgba(6,182,212,.03);border:1px solid rgba(6,182,212,.08);border-radius:10px;padding:1.75rem;transition:border-color .3s,transform .3s}.svc:hover{border-color:rgba(6,182,212,.25);transform:translateY(-3px)}
+    .svc-i{font-size:1.8rem;margin-bottom:.75rem}.svc-t{font-family:'Space Grotesk',sans-serif;font-weight:600;margin-bottom:.4rem}.svc-d{font-size:.85rem;color:rgba(224,247,255,.45);line-height:1.65}
+    .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+    .team-card{transition:transform .3s}.team-card:hover{transform:translateY(-4px)}
+    .team-img{width:100%;aspect-ratio:1/1;border-radius:10px;overflow:hidden;margin-bottom:.9rem;border:1px solid rgba(6,182,212,.1)}
+    .team-img img{width:100%;height:100%;object-fit:cover}
+    .team-n{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem;margin-bottom:.2rem}
+    .team-r{font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.08em;color:rgba(6,182,212,.55);text-transform:uppercase}
+    .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem}
+    .rev{background:rgba(6,182,212,.03);border:1px solid rgba(6,182,212,.08);border-radius:10px;padding:1.5rem}
+    .rev-head{display:flex;align-items:center;gap:.9rem;margin-bottom:.9rem}
+    .rev-img{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid rgba(6,182,212,.2)}
+    .rev-img img{width:100%;height:100%;object-fit:cover}
+    .rev-n{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.88rem}.rev-co{font-family:'Fira Code',monospace;font-size:.58rem;color:rgba(6,182,212,.5);letter-spacing:.06em}
+    .rev-q{font-size:.85rem;color:rgba(224,247,255,.6);line-height:1.7}
+    .cta-s{padding:8rem 4rem;text-align:center;background:radial-gradient(ellipse at 50% 80%,rgba(6,182,212,.08),transparent 60%)}
+    footer{padding:2rem 4rem;border-top:1px solid rgba(6,182,212,.06);display:flex;justify-content:space-between;font-family:'Fira Code',monospace;font-size:.7rem;color:rgba(6,182,212,.3)}
+    @media(max-width:900px){.hero{grid-template-columns:1fr;padding:5rem 1.5rem 3rem;gap:3rem}.hero-img img{height:240px}.stats-inner,.svc-grid{grid-template-columns:1fr 1fr}.team-grid{grid-template-columns:1fr 1fr}.rev-grid{grid-template-columns:1fr}.section,.cta-s{padding:4rem 1.5rem}.stats-bar{padding:2rem 1.5rem}nav{padding:0 1.25rem}.nav-links{display:none}footer{flex-direction:column;gap:.3rem;padding:1.5rem}}
+  `}</style>
+  <nav><div className="logo">Widescreen Analytics</div><ul className="nav-links">{['Platform','Solutions','Pricing','Docs'].map(l=><li key={l}><a href="#">{l}</a></li>)}</ul><a href="#" className="nav-cta">Start Free Trial</a></nav>
+  <div className="hero"><div><div className="badge"><span className="pulse"/>Live Data Intelligence Platform</div><h1>Turn data into<br/><span className="grad">decisions.</span></h1><p className="sub">Enterprise analytics that connects every data source, surfaces real-time insights and powers ML models that actually get deployed.</p><div className="btns"><button className="bp">Start Free Trial</button><button className="bo">See a Demo</button></div></div><div className="hero-img rv"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80&auto=format&fit=crop" alt="Analytics dashboard"/></div></div>
+  <div className="stats-bar"><div className="stats-inner">{STATS.map(s=><div key={s.l} className="stat rv"><div className="stat-v">{s.v}</div><div className="stat-l">{s.l}</div></div>)}</div></div>
+  <div className="section"><div className="inner"><div className="label rv">Capabilities</div><h2 className="rv">Everything you need to <span className="grad">go data-first</span></h2><div className="svc-grid">{SERVICES.map(s=><div key={s.t} className="svc rv"><div className="svc-i">{s.i}</div><div className="svc-t">{s.t}</div><div className="svc-d">{s.d}</div></div>)}</div></div></div>
+  <div className="section" style={{background:'rgba(6,182,212,.02)'}}><div className="inner"><div className="label rv">Our Experts</div><h2 className="rv">The <span className="grad">science team</span></h2><div className="team-grid">{TEAM.map(m=><div key={m.n} className="team-card rv"><div className="team-img"><img src={m.img} alt={m.n}/></div><div className="team-n">{m.n}</div><div className="team-r">{m.r}</div></div>)}</div></div></div>
+  <div className="section"><div className="inner"><div className="label rv">Customer Stories</div><h2 className="rv">Outcomes that <span className="grad">speak for themselves</span></h2><div className="rev-grid">{REVIEWS.map(r=><div key={r.n} className="rev rv"><div className="rev-head"><div className="rev-img"><img src={r.img} alt={r.n}/></div><div><div className="rev-n">{r.n}</div><div className="rev-co">{r.co}</div></div></div><div className="rev-q">"{r.q}"</div></div>)}</div></div></div>
+  <div className="cta-s rv"><div className="label" style={{justifyContent:'center'}}>Get Started</div><h2 style={{marginBottom:'1.5rem',fontFamily:"'Space Grotesk',sans-serif",fontSize:'clamp(2rem,4vw,3rem)',fontWeight:700}}>Start making <span className="grad">smarter decisions today</span></h2><button className="bp" style={{marginTop:'.5rem'}}>Request a Demo</button></div>
+  <footer><span>© 2025 Widescreen Analytics Platform</span><span>info@widescreen.in · +91 70927 01804</span></footer>
   </>);
 }
