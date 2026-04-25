@@ -54,24 +54,9 @@ export default function TopNav() {
           display: flex; align-items: center; gap: .65rem;
           text-decoration: none; flex-shrink: 0;
         }
-        .tnav-logo-mark {
-          width: 34px; height: 34px; border-radius: 9px;
-          background: linear-gradient(135deg, var(--blue), var(--purple));
-          display: flex; align-items: center; justify-content: center;
-          font-family: var(--ff-display); font-weight: 800; font-size: .95rem;
-          color: #fff; box-shadow: 0 0 14px var(--glow-b); flex-shrink: 0;
-        }
-        .tnav-logo-text { display: flex; flex-direction: column; line-height: 1; }
-        .tnav-logo-name {
-          font-family: var(--ff-display); font-weight: 800; font-size: .95rem;
-          letter-spacing: -.02em;
-          background: linear-gradient(90deg, var(--blue), var(--purple));
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .tnav-logo-sub {
-          font-family: var(--ff-mono); font-size: .52rem;
-          letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim);
-          margin-top: 1px;
+        .tnav-logo-img {
+          height: 36px; width: auto; display: block;
+          object-fit: contain; flex-shrink: 0;
         }
         .tnav-links {
           display: flex; align-items: center; gap: .25rem;
@@ -155,11 +140,8 @@ export default function TopNav() {
 
       <nav id="top-nav" ref={navRef} className={scrolled ? 'scrolled' : ''}>
         <a className="tnav-logo" href="#hero" onClick={e => { e.preventDefault(); scrollTo('#hero'); }}>
-          <span className="tnav-logo-mark">W</span>
-          <div className="tnav-logo-text">
-            <span className="tnav-logo-name">WDS</span>
-            <span className="tnav-logo-sub">Widescreen</span>
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-white.png" alt="Widescreen Digital Solutions" className="tnav-logo-img" />
         </a>
 
         <ul className="tnav-links">
