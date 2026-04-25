@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Cursor from '@/components/Cursor';
-import SidebarNav from '@/components/SidebarNav';
+import TopNav from '@/components/TopNav';
 import Modal from '@/components/Modal';
 import Hero from '@/components/sections/Hero';
 import Work from '@/components/sections/Work';
@@ -19,7 +19,7 @@ export default function Page() {
   return (
     <>
       <Cursor />
-      <SidebarNav />
+      <TopNav />
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} />
 
       <main>

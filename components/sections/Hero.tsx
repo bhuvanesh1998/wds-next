@@ -102,7 +102,7 @@ export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
   return (
     <>
       <style>{`
-        #hero { position: relative; height: 100vh; min-height: 680px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #hero { position: relative; height: 100vh; min-height: 600px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         #neural-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; }
         .hero-vignette { position: absolute; inset: 0; z-index: 2; background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(5,5,8,.55) 65%, var(--bg) 100%); }
         .hero-bottom-fade { position: absolute; bottom: 0; left: 0; right: 0; height: 220px; z-index: 2; background: linear-gradient(to bottom, transparent, var(--bg)); }
@@ -129,8 +129,16 @@ export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
         .scroll-label { font-family: var(--ff-mono); font-size: .6rem; letter-spacing: .18em; color: var(--text-dim); text-transform: uppercase; }
         @media (max-width: 768px) {
           .hero-title .t-line { white-space: normal; }
-          .hero-metrics { gap: 1.5rem; }
+          .hero-title .t-sm { font-size: clamp(1.4rem, 5vw, 2rem) !important; }
+          .hero-title .t-lg { font-size: clamp(2.8rem, 13vw, 5rem) !important; }
+          .hero-content { padding: 0 1.5rem; }
+          .hero-sub { font-size: .78rem !important; letter-spacing: .15em !important; }
+          .hero-eyebrow { font-size: .62rem !important; letter-spacing: .1em !important; }
+          .hero-metrics { gap: 1.5rem; margin-top: 2.5rem; }
           .hero-metric-sep { display: none; }
+          .hero-metric-val { font-size: .85rem; }
+          .hero-metric-label { font-size: .55rem; }
+          .hero-divider { margin: 1.5rem auto; }
         }
       `}</style>
       <section id="hero">
@@ -140,7 +148,7 @@ export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
         <div className="hero-content" ref={contentRef}>
           <div className="hero-eyebrow">
             <span className="eyebrow-dot" />
-            AI-Oriented Product Design Studio
+            From idea to launch — in weeks, not months
           </div>
           <h1 className="hero-title">
             <span className="t-line t-sm">We Design</span>
