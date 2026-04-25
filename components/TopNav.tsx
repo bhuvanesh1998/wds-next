@@ -54,30 +54,18 @@ export default function TopNav() {
           display: flex; align-items: center; gap: .65rem;
           text-decoration: none; flex-shrink: 0;
         }
-        .tnav-logo-img {
-          height: 36px; width: auto; display: block;
-          object-fit: contain; flex-shrink: 0;
-        }
-        .tnav-logo-fallback {
-          display: flex; align-items: center; gap: .65rem;
-        }
-        .tnav-logo-mark {
-          width: 34px; height: 34px; border-radius: 9px;
-          background: linear-gradient(135deg, var(--blue), var(--purple));
-          display: flex; align-items: center; justify-content: center;
-          font-family: var(--ff-display); font-weight: 800; font-size: .95rem;
-          color: #fff; box-shadow: 0 0 14px var(--glow-b); flex-shrink: 0;
-        }
+        .tnav-logo { gap: .55rem; }
+        .tnav-logo-text { display: flex; flex-direction: column; line-height: 1; }
         .tnav-logo-name {
-          font-family: var(--ff-display); font-weight: 800; font-size: .95rem;
+          font-family: var(--ff-display); font-weight: 800; font-size: 1rem;
           letter-spacing: -.02em;
-          background: linear-gradient(90deg, var(--blue), var(--purple));
+          background: linear-gradient(90deg, #F97316, #FB923C);
           -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .tnav-logo-sub {
-          font-family: var(--ff-mono); font-size: .52rem;
-          letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim);
-          margin-top: 1px;
+          font-family: var(--ff-mono); font-size: .48rem;
+          letter-spacing: .16em; text-transform: uppercase; color: var(--text-dim);
+          margin-top: 2px;
         }
         .tnav-links {
           display: flex; align-items: center; gap: .25rem;
@@ -161,19 +149,14 @@ export default function TopNav() {
 
       <nav id="top-nav" ref={navRef} className={scrolled ? 'scrolled' : ''}>
         <a className="tnav-logo" href="#hero" onClick={e => { e.preventDefault(); scrollTo('#hero'); }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo-white.png"
-            alt="Widescreen Digital Solutions"
-            className="tnav-logo-img"
-            onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex'; }}
-          />
-          <div className="tnav-logo-fallback" style={{display:'none'}}>
-            <span className="tnav-logo-mark">W</span>
-            <div>
-              <div className="tnav-logo-name">WDS</div>
-              <div className="tnav-logo-sub">Widescreen</div>
-            </div>
+          {/* Lightning-bolt mark SVG */}
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="#F97316"/>
+            <polygon points="19,4 11,17 16,17 13,28 21,15 16,15" fill="#fff"/>
+          </svg>
+          <div className="tnav-logo-text">
+            <span className="tnav-logo-name">Widescreen</span>
+            <span className="tnav-logo-sub">Digital Solutions</span>
           </div>
         </a>
 
