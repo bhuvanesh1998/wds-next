@@ -60,14 +60,14 @@ export default function Cursor() {
         #cursor-ring {
           position: fixed; z-index: 9998;
           width: 36px; height: 36px;
-          border: 1px solid rgba(14,165,233,.4);
+          border: 1px solid rgba(249,115,22,.4);
           border-radius: 50%;
           pointer-events: none;
           transform: translate(-50%,-50%);
           transition: transform .12s var(--ease-out), width .25s, height .25s, border-color .25s;
         }
         body.hovering #cursor { width: 8px; height: 8px; background: var(--purple); }
-        body.hovering #cursor-ring { width: 52px; height: 52px; border-color: rgba(139,92,246,.5); }
+        body.hovering #cursor-ring { width: 52px; height: 52px; border-color: rgba(251,146,60,.5); }
       `}</style>
       <div id="cursor" ref={dotRef} />
       <div id="cursor-ring" ref={ringRef} />

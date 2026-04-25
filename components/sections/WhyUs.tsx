@@ -25,9 +25,9 @@ export default function WhyUs() {
     const ctx = canvas.getContext('2d')!;
     let W = 0, H = 0, t = 0, raf = 0;
     const rings = [
-      { r: 80, speed: 0.008, dots: 6,  color: '#0EA5E9' },
-      { r: 140, speed: -0.005, dots: 10, color: '#8B5CF6' },
-      { r: 200, speed: 0.003, dots: 14, color: '#E879F9' },
+      { r: 80, speed: 0.008, dots: 6,  color: '#F97316' },
+      { r: 140, speed: -0.005, dots: 10, color: '#FB923C' },
+      { r: 200, speed: 0.003, dots: 14, color: '#FBBF24' },
     ];
     const resize = () => { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; };
     const draw = () => {
@@ -35,9 +35,9 @@ export default function WhyUs() {
       ctx.clearRect(0, 0, W, H);
       const cx = W / 2, cy = H / 2;
       const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 60);
-      grad.addColorStop(0, 'rgba(14,165,233,0.3)'); grad.addColorStop(1, 'transparent');
+      grad.addColorStop(0, 'rgba(249,115,22,0.3)'); grad.addColorStop(1, 'transparent');
       ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(cx, cy, 60, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#fff'; ctx.shadowBlur = 20; ctx.shadowColor = '#0EA5E9';
+      ctx.fillStyle = '#fff'; ctx.shadowBlur = 20; ctx.shadowColor = '#F97316';
       ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
       for (const ring of rings) {
         ctx.strokeStyle = ring.color + '20'; ctx.lineWidth = 1;

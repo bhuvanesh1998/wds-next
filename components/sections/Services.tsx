@@ -28,7 +28,7 @@ export default function Services() {
         .service-card:hover .service-desc { max-height: 200px; opacity: 1; }
         .service-arrow { margin-top: 1.5rem; font-size: .75rem; color: var(--blue); font-family: var(--ff-mono); letter-spacing: .1em; text-transform: uppercase; display: flex; align-items: center; gap: .4rem; opacity: 0; transform: translateX(-8px); transition: opacity .3s, transform .3s var(--ease-out); }
         .service-card:hover .service-arrow { opacity: 1; transform: none; }
-        .service-card-cta { background: linear-gradient(135deg,rgba(14,165,233,.06),rgba(139,92,246,.06)); }
+        .service-card-cta { background: linear-gradient(135deg,rgba(249,115,22,.06),rgba(251,146,60,.06)); }
         .service-card-cta .service-number { color: var(--purple); }
         .service-card-cta .service-name { font-size: 1.5rem; margin-top: 1.5rem; }
         .service-card-cta .service-desc { opacity: 1; max-height: none; }

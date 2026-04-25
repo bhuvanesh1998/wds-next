@@ -52,7 +52,7 @@ export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
           const d = Math.sqrt(dx * dx + dy * dy);
           if (d < CONNECT_DIST) {
             const alpha = (1 - d / CONNECT_DIST) * 0.35;
-            const hue = 200 + Math.sin(time + i * 0.1) * 50;
+            const hue = 25 + Math.sin(time + i * 0.1) * 20;
             ctx.strokeStyle = `hsla(${hue},90%,65%,${alpha})`;
             ctx.lineWidth = .6;
             ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
@@ -62,7 +62,7 @@ export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
       for (const n of nodes) {
         const glow = (Math.sin(n.pulse) + 1) * .5;
         const alpha = .3 + glow * .5;
-        const hue = 200 + Math.sin(n.pulse * .5) * 60;
+        const hue = 25 + Math.sin(n.pulse * .5) * 15;
         ctx.shadowBlur = 8 + glow * 8; ctx.shadowColor = `hsl(${hue},90%,65%)`;
         ctx.fillStyle = `hsla(${hue},90%,75%,${alpha})`;
         ctx.beginPath(); ctx.arc(n.x, n.y, n.r + glow * .6, 0, Math.PI * 2); ctx.fill();
@@ -107,7 +107,7 @@ export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
         .hero-vignette { position: absolute; inset: 0; z-index: 2; background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(5,5,8,.55) 65%, var(--bg) 100%); }
         .hero-bottom-fade { position: absolute; bottom: 0; left: 0; right: 0; height: 220px; z-index: 2; background: linear-gradient(to bottom, transparent, var(--bg)); }
         .hero-content { position: relative; z-index: 3; text-align: center; max-width: 820px; padding: 0 2.5rem; will-change: transform; }
-        .hero-eyebrow { display: inline-flex; align-items: center; gap: .55rem; padding: .45rem 1.1rem; border: 1px solid rgba(14,165,233,.3); border-radius: 2rem; background: rgba(14,165,233,.07); backdrop-filter: blur(16px); font-family: var(--ff-mono); font-size: .68rem; letter-spacing: .15em; color: var(--blue); text-transform: uppercase; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp .8s .3s var(--ease-out) forwards; }
+        .hero-eyebrow { display: inline-flex; align-items: center; gap: .55rem; padding: .45rem 1.1rem; border: 1px solid rgba(249,115,22,.3); border-radius: 2rem; background: rgba(249,115,22,.07); backdrop-filter: blur(16px); font-family: var(--ff-mono); font-size: .68rem; letter-spacing: .15em; color: var(--blue); text-transform: uppercase; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp .8s .3s var(--ease-out) forwards; }
         .eyebrow-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 6px var(--blue); animation: pulse-dot 2s ease-in-out infinite; flex-shrink: 0; }
         .hero-title { font-family: var(--ff-display); font-weight: 800; line-height: 1.0; letter-spacing: -.035em; margin-bottom: 0; opacity: 0; animation: fadeUp .9s .5s var(--ease-out) forwards; }
         .hero-title .t-line { display: block; white-space: nowrap; }

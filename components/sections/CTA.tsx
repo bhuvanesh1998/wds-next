@@ -12,9 +12,9 @@ export default function CTA() {
     const ctx = canvas.getContext('2d')!;
     let W = 0, H = 0, t = 0, raf = 0;
     const blobs = [
-      { x: .2, y: .4, r: .35, color: '14,165,233', speed: 1 },
-      { x: .8, y: .6, r: .3,  color: '139,92,246', speed: 1.3 },
-      { x: .5, y: .2, r: .25, color: '232,121,249', speed: .7 },
+      { x: .2, y: .4, r: .35, color: '249,115,22', speed: 1 },
+      { x: .8, y: .6, r: .3,  color: '251,146,60', speed: 1.3 },
+      { x: .5, y: .2, r: .25, color: '251,191,36', speed: .7 },
     ];
     const resize = () => { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; };
     const draw = () => {
