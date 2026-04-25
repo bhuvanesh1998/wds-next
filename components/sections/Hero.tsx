@@ -170,8 +170,8 @@ export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
             </div>
             <div className="hero-metric-sep" />
             <div className="hero-metric">
-              <span className="hero-metric-val">8 yrs</span>
-              <span className="hero-metric-label">Experience</span>
+              <span className="hero-metric-val">10 yrs</span>
+              <span className="hero-metric-label">Since 2016</span>
             </div>
             <div className="hero-metric-sep" />
             <div className="hero-metric">

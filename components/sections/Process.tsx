@@ -35,10 +35,10 @@ export default function Process() {
         .process-header { margin-bottom: 6rem; }
         .process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; position: relative; }
         .process-line { position: absolute; top: 36px; left: 0; right: 0; height: 1px; background: var(--border); z-index: 0; }
-        .process-line-fill { height: 100%; background: linear-gradient(90deg,var(--blue),var(--purple)); width: 0%; transition: width 1.5s var(--ease-out); }
+        .process-line-fill { height: 100%; background: linear-gradient(90deg,#F97316,#FB923C); width: 0%; transition: width 1.5s var(--ease-out); }
         .step { position: relative; z-index: 1; padding-top: 5rem; padding-right: 2rem; }
-        .step-node { position: absolute; top: 0; left: 0; width: 72px; height: 72px; border-radius: 50%; background: var(--bg2); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: .75rem; letter-spacing: .1em; color: var(--text-dim); transition: border-color .4s, color .4s, background .4s, box-shadow .4s; }
-        .step.active .step-node { border-color: var(--blue); color: var(--blue); background: rgba(14,165,233,.1); box-shadow: 0 0 30px var(--glow-b); }
+        .step-node { position: absolute; top: 0; left: 0; width: 72px; height: 72px; border-radius: 50%; background: var(--bg); border: 2px solid rgba(249,115,22,.2); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: .75rem; letter-spacing: .1em; color: rgba(249,115,22,.4); transition: border-color .4s, color .4s, background .4s, box-shadow .4s; }
+        .step.active .step-node { border-color: #F97316; color: #F97316; background: rgba(249,115,22,.08); box-shadow: 0 0 28px rgba(249,115,22,.25); }
         .step-number { font-family: var(--ff-mono); font-size: .65rem; letter-spacing: .15em; color: var(--text-dim); text-transform: uppercase; margin-bottom: .5rem; }
         .step-title { font-family: var(--ff-display); font-size: 1.5rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: .8rem; }
         .step-desc { font-size: .88rem; color: var(--text-muted); line-height: 1.7; }
