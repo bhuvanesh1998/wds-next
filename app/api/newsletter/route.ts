@@ -37,11 +37,13 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const email  = typeof body.email  === 'string' ? body.email.trim().slice(0, 254)  : '';
-    const mobile = typeof body.mobile === 'string' ? body.mobile.trim().slice(0, 20)  : '';
+    const email    = typeof body.email    === 'string' ? body.email.trim().slice(0, 254) : '';
+    const mobile   = typeof body.mobile   === 'string' ? body.mobile.trim().slice(0, 20) : '';
+    const whatsapp = typeof body.whatsapp === 'string' ? body.whatsapp.trim().slice(0, 20) : '';
+    const telegram = typeof body.telegram === 'string' ? body.telegram.trim().slice(0, 80) : '';
 
-    if (!email && !mobile) {
-      return NextResponse.json({ error: 'Email or mobile required' }, { status: 400 });
+    if (!email && !mobile && !whatsapp && !telegram) {
+      return NextResponse.json({ error: 'At least one contact method required' }, { status: 400 });
     }
     if (email && !EMAIL_RE.test(email)) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
@@ -49,16 +51,19 @@ export async function POST(req: NextRequest) {
     if (mobile && !MOBILE_RE.test(mobile)) {
       return NextResponse.json({ error: 'Invalid mobile number' }, { status: 400 });
     }
+    if (whatsapp && !MOBILE_RE.test(whatsapp)) {
+      return NextResponse.json({ error: 'Invalid WhatsApp number' }, { status: 400 });
+    }
 
     const sheets = await getSheets();
     const timestamp = new Date().toISOString();
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${SHEET_NEWSLETTER}!A:C`,
+      range: `${SHEET_NEWSLETTER}!A:F`,
       valueInputOption: 'RAW',
       requestBody: {
-        values: [[timestamp, email, mobile]],
+        values: [[timestamp, email, mobile, whatsapp, telegram]],
       },
     });
 
