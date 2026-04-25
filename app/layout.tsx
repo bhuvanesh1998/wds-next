@@ -3,7 +3,7 @@ import Script from 'next/script';
 import './globals.css';
 
 const SITE_URL = 'https://widescreen.co.in';
-const GA_ID = 'G-253352488'; // TODO: Replace with your actual GA4 Measurement ID
+const GA_ID = 'G-9ELMZZT521';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
