@@ -11,12 +11,29 @@ const DETAILS = [
 
 export default function Contact() {
   useReveal();
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', company: '', service: '', message: '', budget: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setStatus('sending');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      setStatus('sent');
+      setForm({ firstName: '', lastName: '', email: '', company: '', service: '', message: '', budget: '' });
+      setTimeout(() => setStatus('idle'), 4000);
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 4000);
+    }
   };
 
   return (
@@ -41,9 +58,11 @@ export default function Contact() {
         .form-textarea { resize: vertical; min-height: 120px; }
         .form-select { appearance: none; cursor: none; }
         .form-select option { background: var(--bg2); }
-        .form-submit { width: 100%; padding: 1rem; background: linear-gradient(135deg,var(--blue),var(--purple)); border-radius: 10px; font-weight: 600; font-size: .9rem; letter-spacing: .04em; color: #fff; transition: opacity .2s, transform .2s var(--ease-out); margin-top: .5rem; }
-        .form-submit:hover { opacity: .9; transform: translateY(-1px); }
-        .form-submit.submitted { background: linear-gradient(135deg,#10B981,#059669); }
+        .form-submit { width: 100%; padding: 1rem; background: linear-gradient(135deg,var(--blue),var(--purple)); border-radius: 10px; font-weight: 600; font-size: .9rem; letter-spacing: .04em; color: #fff; transition: opacity .2s, transform .2s var(--ease-out); margin-top: .5rem; cursor: none; }
+        .form-submit:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
+        .form-submit:disabled { opacity: .6; }
+        .form-submit.sent { background: linear-gradient(135deg,#16a34a,#15803d); }
+        .form-submit.error { background: linear-gradient(135deg,#dc2626,#b91c1c); }
         .contact-gradient { background: linear-gradient(90deg,var(--blue),var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
       `}</style>
       <section id="contact">
@@ -72,26 +91,26 @@ export default function Contact() {
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">First Name</label>
-                  <input className="form-input" type="text" placeholder="Alex" />
+                  <input className="form-input" type="text" placeholder="Alex" value={form.firstName} onChange={set('firstName')} required />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Last Name</label>
-                  <input className="form-input" type="text" placeholder="Rivera" />
+                  <input className="form-input" type="text" placeholder="Rivera" value={form.lastName} onChange={set('lastName')} />
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Email</label>
-                  <input className="form-input" type="email" placeholder="alex@company.com" />
+                  <input className="form-input" type="email" placeholder="alex@company.com" value={form.email} onChange={set('email')} required />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Company</label>
-                  <input className="form-input" type="text" placeholder="Acme Corp" />
+                  <input className="form-input" type="text" placeholder="Acme Corp" value={form.company} onChange={set('company')} />
                 </div>
               </div>
               <div className="form-group">
                 <label className="form-label">What are you building?</label>
-                <select className="form-select form-input" defaultValue="">
+                <select className="form-select form-input" value={form.service} onChange={set('service')}>
                   <option value="" disabled>Select a service</option>
                   <option>UX Strategy</option>
                   <option>UI Design System</option>
@@ -103,11 +122,11 @@ export default function Contact() {
               </div>
               <div className="form-group">
                 <label className="form-label">Tell us about your project</label>
-                <textarea className="form-textarea" placeholder="We're building a B2B SaaS tool and need a complete redesign..." />
+                <textarea className="form-textarea" placeholder="We're building a B2B SaaS tool and need a complete redesign..." value={form.message} onChange={set('message')} />
               </div>
               <div className="form-group">
                 <label className="form-label">Budget Range</label>
-                <select className="form-select form-input" defaultValue="">
+                <select className="form-select form-input" value={form.budget} onChange={set('budget')}>
                   <option value="" disabled>Select a range</option>
                   <option>$5k – $15k</option>
                   <option>$15k – $50k</option>
@@ -115,8 +134,8 @@ export default function Contact() {
                   <option>$150k+</option>
                 </select>
               </div>
-              <button type="submit" className={`form-submit${submitted ? ' submitted' : ''}`}>
-                {submitted ? '✓ Message Sent!' : 'Send Message →'}
+              <button type="submit" disabled={status === 'sending'} className={`form-submit${status === 'sent' ? ' sent' : status === 'error' ? ' error' : ''}`}>
+                {status === 'sending' ? 'Sending…' : status === 'sent' ? '✓ Message Sent!' : status === 'error' ? '✗ Failed — Try Again' : 'Send Message →'}
               </button>
             </form>
           </div>

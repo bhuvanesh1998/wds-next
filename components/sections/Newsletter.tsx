@@ -2,15 +2,27 @@
 import { useState } from 'react';
 
 export default function Newsletter() {
-  const [tab, setTab] = useState<'email' | 'phone'>('email');
+  const [tab, setTab]     = useState<'email' | 'phone'>('email');
   const [value, setValue] = useState('');
-  const [done, setDone] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
 
-  const handleSubscribe = () => {
+  const handleSubscribe = async () => {
     if (!value.trim()) return;
-    setDone(true);
-    setValue('');
-    setTimeout(() => setDone(false), 2500);
+    setStatus('sending');
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(tab === 'email' ? { email: value } : { mobile: value }),
+      });
+      if (!res.ok) throw new Error();
+      setStatus('done');
+      setValue('');
+      setTimeout(() => setStatus('idle'), 3000);
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 3000);
+    }
   };
 
   return (
@@ -20,7 +32,6 @@ export default function Newsletter() {
         .newsletter-inner { max-width: 1280px; margin: 0 auto; padding: 0 4rem; display: flex; align-items: center; justify-content: space-between; gap: 4rem; flex-wrap: wrap; }
         .newsletter-title { font-family: var(--ff-display); font-size: 1.4rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: .4rem; }
         .newsletter-sub { font-size: .85rem; color: var(--text-muted); }
-        .newsletter-form { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
         .newsletter-tabs { display: flex; gap: .3rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: .25rem; }
         .newsletter-tab { padding: .35rem .9rem; border-radius: 6px; font-size: .75rem; font-family: var(--ff-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--text-dim); transition: background .2s, color .2s; }
         .newsletter-tab.active { background: var(--glass-b); color: var(--blue); border: 1px solid var(--border-b); }
@@ -28,9 +39,11 @@ export default function Newsletter() {
         .newsletter-input-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px var(--glow-b); }
         .newsletter-input { flex: 1; background: none; border: none; outline: none; color: var(--text); font-family: var(--ff-body); font-size: .88rem; min-width: 0; }
         .newsletter-input::placeholder { color: var(--text-dim); }
-        .newsletter-btn { padding: .6rem 1.4rem; background: linear-gradient(135deg,var(--blue),var(--purple)); border-radius: 7px; font-size: .78rem; font-weight: 600; letter-spacing: .06em; color: #fff; white-space: nowrap; transition: opacity .2s; }
-        .newsletter-btn:hover { opacity: .85; }
-        .newsletter-btn.done { background: linear-gradient(135deg,#10B981,#059669); }
+        .newsletter-btn { padding: .6rem 1.4rem; background: linear-gradient(135deg,var(--blue),var(--purple)); border-radius: 7px; font-size: .78rem; font-weight: 600; letter-spacing: .06em; color: #fff; white-space: nowrap; transition: opacity .2s; cursor: none; }
+        .newsletter-btn:hover:not(:disabled) { opacity: .85; }
+        .newsletter-btn:disabled { opacity: .6; }
+        .newsletter-btn.done { background: linear-gradient(135deg,#16a34a,#15803d); }
+        .newsletter-btn.error { background: linear-gradient(135deg,#dc2626,#b91c1c); }
         .newsletter-privacy { font-size: .7rem; color: var(--text-dim); font-family: var(--ff-mono); letter-spacing: .04em; margin-top: .5rem; }
       `}</style>
       <div className="newsletter-section">
@@ -52,9 +65,14 @@ export default function Newsletter() {
                   placeholder={tab === 'email' ? 'Enter your email address' : '+1 (555) 000-0000'}
                   value={value}
                   onChange={e => setValue(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleSubscribe()}
                 />
-                <button className={`newsletter-btn${done ? ' done' : ''}`} onClick={handleSubscribe}>
-                  {done ? '✓ Done!' : 'Subscribe'}
+                <button
+                  className={`newsletter-btn${status === 'done' ? ' done' : status === 'error' ? ' error' : ''}`}
+                  onClick={handleSubscribe}
+                  disabled={status === 'sending'}
+                >
+                  {status === 'sending' ? '…' : status === 'done' ? '✓ Done!' : status === 'error' ? '✗ Retry' : 'Subscribe'}
                 </button>
               </div>
               <div className="newsletter-privacy">No spam. Unsubscribe anytime.</div>
