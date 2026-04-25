@@ -58,6 +58,27 @@ export default function TopNav() {
           height: 36px; width: auto; display: block;
           object-fit: contain; flex-shrink: 0;
         }
+        .tnav-logo-fallback {
+          display: flex; align-items: center; gap: .65rem;
+        }
+        .tnav-logo-mark {
+          width: 34px; height: 34px; border-radius: 9px;
+          background: linear-gradient(135deg, var(--blue), var(--purple));
+          display: flex; align-items: center; justify-content: center;
+          font-family: var(--ff-display); font-weight: 800; font-size: .95rem;
+          color: #fff; box-shadow: 0 0 14px var(--glow-b); flex-shrink: 0;
+        }
+        .tnav-logo-name {
+          font-family: var(--ff-display); font-weight: 800; font-size: .95rem;
+          letter-spacing: -.02em;
+          background: linear-gradient(90deg, var(--blue), var(--purple));
+          -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .tnav-logo-sub {
+          font-family: var(--ff-mono); font-size: .52rem;
+          letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim);
+          margin-top: 1px;
+        }
         .tnav-links {
           display: flex; align-items: center; gap: .25rem;
           list-style: none;
@@ -141,7 +162,19 @@ export default function TopNav() {
       <nav id="top-nav" ref={navRef} className={scrolled ? 'scrolled' : ''}>
         <a className="tnav-logo" href="#hero" onClick={e => { e.preventDefault(); scrollTo('#hero'); }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-white.png" alt="Widescreen Digital Solutions" className="tnav-logo-img" />
+          <img
+            src="/logo-white.png"
+            alt="Widescreen Digital Solutions"
+            className="tnav-logo-img"
+            onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex'; }}
+          />
+          <div className="tnav-logo-fallback" style={{display:'none'}}>
+            <span className="tnav-logo-mark">W</span>
+            <div>
+              <div className="tnav-logo-name">WDS</div>
+              <div className="tnav-logo-sub">Widescreen</div>
+            </div>
+          </div>
         </a>
 
         <ul className="tnav-links">
