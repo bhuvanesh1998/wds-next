@@ -1,9 +1,11 @@
 import TopNav from '@/components/TopNav';
 import Link from 'next/link';
+import Cursor from '@/components/Cursor';
 
 export default function TermsAndConditions() {
   return (
     <>
+      <Cursor />
       <TopNav />
       <main style={{ padding: '8rem 2rem', maxWidth: '800px', margin: '0 auto', fontFamily: 'var(--ff-sans)', lineHeight: 1.6 }}>
         <h1 style={{ fontFamily: 'var(--ff-display)', fontSize: '2.5rem', marginBottom: '2rem' }}>Terms and Conditions</h1>
