@@ -39,7 +39,12 @@ export default function Page() {
       <footer className="site-footer">
         <div style={{ fontFamily: 'var(--ff-display)', fontWeight: 700, fontSize: '1rem' }}>WDS</div>
         <div style={{ fontFamily: 'var(--ff-mono)', fontSize: '.78rem', color: 'var(--text-dim)', letterSpacing: '.05em' }}>
-          © 2025 Widescreen Digital Solution. All rights reserved.
+          © 2026 Widescreen Digital Solution. All rights reserved.
+        </div>
+        <div style={{ fontFamily: 'var(--ff-mono)', fontSize: '.78rem', color: 'var(--text-dim)', letterSpacing: '.05em', display: 'flex', gap: '1rem', marginTop: '0.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="/terms-and-conditions" style={{ color: 'inherit', textDecoration: 'none' }}>Terms &amp; Conditions</a>
+          <a href="/refund-and-cancellation" style={{ color: 'inherit', textDecoration: 'none' }}>Refund &amp; Cancellation</a>
+          <a href="/contact-us" style={{ color: 'inherit', textDecoration: 'none' }}>Contact Us</a>
         </div>
         <div style={{ fontFamily: 'var(--ff-mono)', fontSize: '.78rem', color: 'var(--text-dim)', letterSpacing: '.05em' }}>
           info@widescreen.in
