@@ -8,19 +8,21 @@ export default function ContactUs() {
       <Cursor />
       <TopNav />
       <main style={{ padding: '8rem 2rem', maxWidth: '800px', margin: '0 auto', fontFamily: 'var(--ff-sans)', lineHeight: 1.6 }}>
-        <h1 style={{ fontFamily: 'var(--ff-display)', fontSize: '2.5rem', marginBottom: '2rem' }}>Contact Us</h1>
+        <h1 style={{ fontFamily: 'var(--ff-display)', fontSize: '2.5rem', marginBottom: '1rem' }}>Contact Us</h1>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Last updated on 30-04-2026 05:02:35</p>
         
-        <p>We would love to hear from you. If you have any questions, concerns, or feedback, please reach out to us using the details below.</p>
+        <p>You may contact us using the information below:</p>
         
         <div style={{ marginTop: '2rem', padding: '2.5rem', backgroundColor: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: '20px' }}>
-          <h3 style={{ fontFamily: 'var(--ff-display)', fontSize: '1.5rem', marginBottom: '1rem' }}>Widescreen Digital Solution</h3>
-          <p style={{ marginBottom: '0.5rem' }}><strong>Email:</strong> <a href="mailto:info@widescreen.in" style={{ color: 'inherit' }}>info@widescreen.in</a></p>
-          <p style={{ marginBottom: '0.5rem' }}><strong>Phone:</strong> <a href="tel:+917092701804" style={{ color: 'inherit' }}>+91-70927-01804</a></p>
-          <p style={{ marginBottom: '0.5rem' }}><strong>Operating Address:</strong><br />
-            15 A, Perumal Koil Street, Poothapedu,<br />
-            Chennai 600116,<br />
-            India
+          <p style={{ marginBottom: '0.5rem' }}><strong>Legal entity name:</strong> DHEENADAYALAN BHUVANESH</p>
+          <p style={{ marginBottom: '0.5rem' }}><strong>Registered Address:</strong><br />
+            15,Perumal Koil Street,Amman Temple Oppsite, Porur, Tamil Nadu, PIN: 600116
           </p>
+          <p style={{ marginBottom: '0.5rem' }}><strong>Operational Address:</strong><br />
+            15,Perumal Koil Street,Amman Temple Oppsite, Porur, Tamil Nadu, PIN: 600116
+          </p>
+          <p style={{ marginBottom: '0.5rem' }}><strong>Telephone No:</strong> <a href="tel:+917092701804" style={{ color: 'inherit' }}>7092701804</a></p>
+          <p style={{ marginBottom: '0.5rem' }}><strong>E-Mail ID:</strong> <a href="mailto:bhuvaneshnumlk@gmail.com" style={{ color: 'inherit' }}>bhuvaneshnumlk@gmail.com</a></p>
         </div>
       </main>
       <footer className="site-footer">
