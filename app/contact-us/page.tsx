@@ -12,7 +12,7 @@ export default function ContactUs() {
         
         <p>We would love to hear from you. If you have any questions, concerns, or feedback, please reach out to us using the details below.</p>
         
-        <div style={{ marginTop: '2rem', padding: '2rem', backgroundColor: 'var(--bg-card, #f9f9f9)', borderRadius: '8px' }}>
+        <div style={{ marginTop: '2rem', padding: '2.5rem', backgroundColor: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: '20px' }}>
           <h3 style={{ fontFamily: 'var(--ff-display)', fontSize: '1.5rem', marginBottom: '1rem' }}>Widescreen Digital Solution</h3>
           <p style={{ marginBottom: '0.5rem' }}><strong>Email:</strong> <a href="mailto:info@widescreen.in" style={{ color: 'inherit' }}>info@widescreen.in</a></p>
           <p style={{ marginBottom: '0.5rem' }}><strong>Phone:</strong> <a href="tel:+917092701804" style={{ color: 'inherit' }}>+91-70927-01804</a></p>
