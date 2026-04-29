@@ -17,8 +17,8 @@ export default function ContactUs() {
           <p style={{ marginBottom: '0.5rem' }}><strong>Email:</strong> <a href="mailto:info@widescreen.in" style={{ color: 'inherit' }}>info@widescreen.in</a></p>
           <p style={{ marginBottom: '0.5rem' }}><strong>Phone:</strong> <a href="tel:+917092701804" style={{ color: 'inherit' }}>+91-70927-01804</a></p>
           <p style={{ marginBottom: '0.5rem' }}><strong>Operating Address:</strong><br />
-            No. 12, 1st Floor, Tech Park Road,<br />
-            Chennai, Tamil Nadu, 600001,<br />
+            15 A, Perumal Koil Street, Poothapedu,<br />
+            Chennai 600116,<br />
             India
           </p>
         </div>
